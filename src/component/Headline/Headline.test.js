@@ -1,19 +1,33 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Headline from "./Headline";
+import { findByDataAttr, checkProps } from "../../../src/Utils/index";
 
 const setUp = (props = {}) => {
   const component = shallow(<Headline {...props} />);
   return component;
 };
 
-const findByDataAttr = (component, attr) => {
-  const wrapper = component.find(`[data-test='${attr}']`);
-  return wrapper;
-};
-
 describe("Headline component", () => {
-  it("Should render the post title component", () => {});
+  describe("checking propTypes", () => {
+    it("should not throw a warning", () => {
+      const expectedProps = {
+        header: "Test header",
+        desc: "Test desc",
+        tempArray: [
+          {
+            fName: "Test fname",
+            lName: "Test lname",
+            email: "test@test.com",
+            age: 24,
+            onlineStatus: false,
+          },
+        ],
+      };
+      const propsErr = checkProps(Headline, expectedProps);
+      expect(propsErr).toBeUndefined();
+    });
+  });
 
   describe("Have props", () => {
     let wrapper;
@@ -44,7 +58,6 @@ describe("Headline component", () => {
 
   describe("Null props", () => {
     let wrapper;
-
     beforeEach(() => {
       wrapper = setUp();
     });
